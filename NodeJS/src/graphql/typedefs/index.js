@@ -1,4 +1,9 @@
-const gql = require('graphql-tag')
+// PLUGINS IMPORTS //
+const { gql } = require("apollo-server")
+
+// COMPONENTS IMPORTS //
+
+/////////////////////////////////////////////////////////////////////////////
 
 module.exports = gql`
   enum Theme {
@@ -100,5 +105,4 @@ module.exports = gql`
     signup(input: SignupInput!): AuthUser!
     signin(input: SigninInput!): AuthUser!
   }
-
 `
