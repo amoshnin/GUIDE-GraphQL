@@ -8,6 +8,51 @@
       "avatar": "http",
       "createdAt": 1571213104370,
       "id": "Z2hlvDmLOSRZGebC_Z_aA"
+    },
+    {
+      "email": "master.code.com",
+      "password": "123",
+      "role": "ADMIN",
+      "verified": false,
+      "avatar": "http",
+      "createdAt": 1607110425382,
+      "id": "MZ_oaB2hyZZzMezIPcQM-"
+    },
+    {
+      "email": "member@code.com",
+      "password": "password",
+      "role": "ADMIN",
+      "verified": false,
+      "avatar": "http",
+      "createdAt": 1607111649324,
+      "id": "td-tEaD8a6w3i9_bUISlP"
+    },
+    {
+      "email": "membe3@code.com",
+      "password": "password",
+      "role": "ADMIN",
+      "verified": false,
+      "avatar": "http",
+      "createdAt": 1607111867482,
+      "id": "0iGgaQ6Zp0F0UXPBD8Bdx"
+    },
+    {
+      "email": "email@gmail.com",
+      "password": "123",
+      "role": "ADMIN",
+      "verified": false,
+      "avatar": "http",
+      "createdAt": 1607112866863,
+      "id": "rs8hoK3VaadXzZ3DegIuV"
+    },
+    {
+      "email": "email1@gmail.com",
+      "password": "123",
+      "role": "ADMIN",
+      "verified": false,
+      "avatar": "http",
+      "createdAt": 1607113127642,
+      "id": "a8dwKOQM75l4HuHQVyXBU"
     }
   ],
   "posts": [],
