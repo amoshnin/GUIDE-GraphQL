@@ -55,6 +55,25 @@
       "id": "a8dwKOQM75l4HuHQVyXBU"
     }
   ],
-  "posts": [],
+  "posts": [
+    {
+      "message": "Key",
+      "author": "a8dwKOQM75l4HuHQVyXBU",
+      "createdAt": 1607177039708,
+      "id": "4raPzMdzkZvt9RAOjE6ih"
+    },
+    {
+      "message": "Key",
+      "author": "a8dwKOQM75l4HuHQVyXBU",
+      "createdAt": 1607177635151,
+      "id": "neCLyE6YYJRSoxshjJb2x"
+    },
+    {
+      "message": "Key",
+      "author": "a8dwKOQM75l4HuHQVyXBU",
+      "createdAt": 1607177642275,
+      "id": "N6kOjboeunNUbZLHtZkYN"
+    }
+  ],
   "settings": []
 }

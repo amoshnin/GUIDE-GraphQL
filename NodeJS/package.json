@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "start": "node src/index.js",
-    "dev": "nodemon server.js --ignore 'src/db/db.json'",
+    "dev": "nodemon src/index.js --ignore 'src/db/db.json'",
     "test": "jest tests"
   },
   "dependencies": {

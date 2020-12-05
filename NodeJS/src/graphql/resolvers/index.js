@@ -2,16 +2,12 @@
 
 // COMPONENTS IMPORTS //
 const { authenticated, authorized } = require("../../utils/auth")
+const { createToken } = require("../../utils/context")
 
 /////////////////////////////////////////////////////////////////////////////
 
 const NEW_POST = "NEW_POST"
 
-/**
- * Anything Query / Mutation resolver
- * using a user for a DB query
- * requires user authenication
- */
 module.exports = {
   Query: {
     me: authenticated((_, __, { user }) => {
@@ -40,7 +36,7 @@ module.exports = {
       return models.Settings.updateOne({ user: user.id }, input)
     }),
 
-    createPost: authenticated((_, { input }, { user, models }) => {
+    createPost: authenticated((_, { input }, { user, models, pubsub }) => {
       const post = models.Post.createOne({ ...input, author: user.id })
       pubsub.publish(NEW_POST, { newPost: post })
       return post
@@ -62,7 +58,7 @@ module.exports = {
       })
     ),
 
-    signup(_, { input }, { models, createToken }) {
+    signup(_, { input }, { models }) {
       const existing = models.User.findOne({ email: input.email })
 
       if (existing) {
@@ -76,7 +72,7 @@ module.exports = {
       const token = createToken(user)
       return { token, user }
     },
-    signin(_, { input }, { models, createToken }) {
+    signin(_, { input }, { models }) {
       const user = models.User.findOne(input)
 
       if (!user) {
@@ -87,7 +83,16 @@ module.exports = {
       return { token, user }
     },
   },
-  User: {
+
+  Subscription: {
+    newPost: {
+      subscribe: authenticated((_, s, { pubsub }) => {
+        return pubsub.asyncIterator([NEW_POST])
+      }),
+    },
+  },
+
+  UserType: {
     posts(root, _, { user, models }) {
       if (root.id !== user.id) {
         throw new Error("nope")
@@ -99,12 +104,12 @@ module.exports = {
       return models.Settings.findOne({ id: root.settings, user: user.id })
     },
   },
-  Settings: {
+  SettingsType: {
     user(settings, _, { user, models }) {
       return models.Settings.findOne({ id: settings.id, user: user.id })
     },
   },
-  Post: {
+  PostType: {
     author(post, _, { models }) {
       return models.User.findOne({ id: post.author })
     },

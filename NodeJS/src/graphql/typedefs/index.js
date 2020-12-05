@@ -6,55 +6,55 @@ const { gql } = require("apollo-server")
 /////////////////////////////////////////////////////////////////////////////
 
 module.exports = gql`
-  enum Theme {
+  enum ThemeEnum {
     DARK
     LIGHT
   }
 
-  enum Role {
+  enum RoleEnum {
     ADMIN
     MEMBER
     GUEST
   }
 
-  type User {
+  type UserType {
     id: ID!
     email: String!
     avatar: String!
     verified: Boolean!
     createdAt: String!
-    posts: [Post]!
-    role: Role!
-    settings: Settings!
+    posts: [PostType]!
+    role: RoleEnum!
+    settings: SettingsType!
   }
 
-  type AuthUser {
+  type AuthUserType {
     token: String!
-    user: User!
+    user: UserType!
   }
 
-  type Post {
+  type PostType {
     id: ID!
     message: String!
-    author: User!
+    author: UserType!
     createdAt: String!
     likes: Int!
     views: Int!
   }
 
-  type Settings {
+  type SettingsType {
     id: ID!
-    user: User!
-    theme: Theme!
+    user: UserType!
+    theme: ThemeEnum!
     emailNotifications: Boolean!
     pushNotifications: Boolean!
   }
 
-  type Invite {
+  type InviteType {
     email: String!
-    from: User!
+    from: UserType!
     createdAt: String!
-    role: Role!
+    role: RoleEnum!
   }
 
   input NewPostInput {
@@ -62,7 +62,7 @@ module.exports = gql`
   }
 
   input UpdateSettingsInput {
-    theme: Theme
+    theme: ThemeEnum
     emailNotifications: Boolean
     pushNotifications: Boolean
   }
@@ -75,13 +75,13 @@ module.exports = gql`
 
   input InviteInput {
     email: String!
-    role: Role!
+    role: RoleEnum!
   }
 
   input SignupInput {
     email: String!
     password: String!
-    role: Role!
+    role: RoleEnum!
   }
 
   input SigninInput {
@@ -90,19 +90,23 @@ module.exports = gql`
   }
 
   type Query {
-    me: User!
-    posts: [Post]!
-    post(id: ID!): Post!
-    userSettings: Settings!
-    feed: [Post]!
+    me: UserType!
+    posts: [PostType]!
+    post(id: ID!): PostType!
+    userSettings: SettingsType!
+    feed: [PostType]!
   }
 
   type Mutation {
-    updateSettings(input: UpdateSettingsInput!): Settings!
-    createPost(input: NewPostInput!): Post!
-    updateMe(input: UpdateUserInput!): User
-    invite(input: InviteInput!): Invite!
-    signup(input: SignupInput!): AuthUser!
-    signin(input: SigninInput!): AuthUser!
+    updateSettings(input: UpdateSettingsInput!): SettingsType!
+    createPost(input: NewPostInput!): PostType!
+    updateMe(input: UpdateUserInput!): UserType
+    invite(input: InviteInput!): InviteType!
+    signup(input: SignupInput!): AuthUserType!
+    signin(input: SigninInput!): AuthUserType!
+  }
+
+  type Subscription {
+    newPost: PostType!
   }
 `
