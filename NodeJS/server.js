@@ -1,5 +1,5 @@
 // PLUGINS IMPORTS //
-const { ApolloServer, gql } = require("apollo-server")
+const { ApolloServer, gql, PubSub } = require("apollo-server")
 
 // COMPONENTS IMPORTS //
 
@@ -7,6 +7,8 @@ const { ApolloServer, gql } = require("apollo-server")
 
 /////////////////////////////////////////////////////////////////////////////
 
+const pubsub = new PubSub()
+const NEW_ITEM = "NEW_ITEM"
 const typeDefs = gql`
   type User {
     id: ID!
@@ -17,6 +19,10 @@ const typeDefs = gql`
   type Settings {
     user: User!
     theme: String!
+  }
+
+  type Item {
+    task: String!
   }
 
   input SettingsInput {
@@ -31,6 +37,11 @@ const typeDefs = gql`
 
   type Mutation {
     settings(input: SettingsInput!): Settings!
+    createItem(task: String!): Item!
+  }
+
+  type Subscription {
+    newItem: Item!
   }
 `
 
@@ -56,6 +67,18 @@ const resolvers = {
     settings(_, { input }) {
       return input
     },
+
+    createItem(_, { task }) {
+      const item = { task }
+      pubsub.publish(NEW_ITEM, { newItem: item })
+      return item
+    },
+  },
+
+  Subscription: {
+    newItem: {
+      subscribe: () => pubsub.asyncIterator(NEW_ITEM),
+    },
   },
 
   Settings: {
@@ -72,6 +95,14 @@ const resolvers = {
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  context({ connection }) {
+    if (connection) {
+      return { ...connection.context }
+    }
+  },
+  subscriptions: {
+    onConnect(params) {},
+  },
 })
 
 server.listen().then(({ url }) => console.log(`Started server on ${url}`))
