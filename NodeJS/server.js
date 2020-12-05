@@ -1,5 +1,11 @@
 // PLUGINS IMPORTS //
-const { ApolloServer, gql, PubSub } = require("apollo-server")
+const {
+  ApolloServer,
+  gql,
+  PubSub,
+  SchemaDirectiveVisitor,
+} = require("apollo-server")
+const { GraphQLString, defaultFieldResolver } = require("graphql")
 
 // COMPONENTS IMPORTS //
 
@@ -9,9 +15,29 @@ const { ApolloServer, gql, PubSub } = require("apollo-server")
 
 const pubsub = new PubSub()
 const NEW_ITEM = "NEW_ITEM"
+
+class LogDirective extends SchemaDirectiveVisitor {
+  visitFieldDefinition(field) {
+    const oldResolver = field.resolve || defaultFieldResolver
+
+    field.args.push({
+      type: GraphQLString,
+      name: "message",
+    })
+    field.resolve = (root, { message, ...rest }, ctx, info) => {
+      const { message: schemaMessage } = this.args
+
+      console.log("hello", message || schemaMessage)
+      return oldResolver.call(this, root, rest, ctx, info)
+    }
+  }
+}
+
 const typeDefs = gql`
+  directive @log(message: String = "my message") on FIELD_DEFINITION
+
   type User {
-    id: ID!
+    id: ID! @log(message: "id here")
     username: String!
     createdAt: Int!
   }
@@ -94,6 +120,9 @@ const resolvers = {
 
 const server = new ApolloServer({
   typeDefs,
+  schemaDirectives: {
+    log: LogDirective,
+  },
   resolvers,
   context({ connection }) {
     if (connection) {
