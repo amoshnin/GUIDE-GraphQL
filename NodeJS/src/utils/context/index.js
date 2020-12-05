@@ -4,8 +4,8 @@ const jwt = require("jsonwebtoken")
 const secret = "catpack"
 
 // COMPONENTS IMPORTS //
-const { models } = require("../db")
-const db = require("../db")
+const { models } = require("../../db")
+const db = require("../../db")
 
 /////////////////////////////////////////////////////////////////////////////
 

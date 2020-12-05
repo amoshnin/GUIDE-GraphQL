@@ -1,7 +1,7 @@
 // PLUGINS IMPORTS //
 
 // COMPONENTS IMPORTS //
-const { authenticated, authorized } = require("../../utils/auth")
+const { authenticated, authorized } = require("../../utils/protections/auth")
 const { createToken } = require("../../utils/context")
 
 /////////////////////////////////////////////////////////////////////////////
