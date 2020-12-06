@@ -6,6 +6,9 @@ const { gql } = require("apollo-server")
 /////////////////////////////////////////////////////////////////////////////
 
 module.exports = gql`
+  directive @authenticated on FIELD_DEFINITION
+  directive @authorized(role: RoleEnum! = ADMIN) on FIELD_DEFINITION
+
   directive @formatDate(format: String = "dd MMMM yyyy") on FIELD_DEFINITION
 
   enum ThemeEnum {
@@ -92,7 +95,7 @@ module.exports = gql`
   }
 
   type Query {
-    me: UserType!
+    me: UserType! @authenticated
     posts: [PostType]!
     post(id: ID!): PostType!
     userSettings: SettingsType!
@@ -104,6 +107,8 @@ module.exports = gql`
     createPost(input: NewPostInput!): PostType!
     updateMe(input: UpdateUserInput!): UserType
     invite(input: InviteInput!): InviteType!
+      @authenticated
+      @authorized(role: ADMIN)
     signup(input: SignupInput!): AuthUserType!
     signin(input: SigninInput!): AuthUserType!
   }

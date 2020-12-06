@@ -6,7 +6,11 @@ const typeDefs = require("./graphql/typedefs")
 const resolvers = require("./graphql/resolvers")
 
 const { context } = require("./utils/context")
-const { FormatDateDirective } = require("./graphql/directives/index")
+const {
+  AuthenticationDirective,
+  AuthorizationDirective,
+  FormatDateDirective,
+} = require("./graphql/directives/index")
 
 /////////////////////////////////////////////////////////////////////////////
 
@@ -19,6 +23,8 @@ const server = new ApolloServer({
   },
   schemaDirectives: {
     formatDate: FormatDateDirective,
+    authenticated: AuthenticationDirective,
+    authorized: AuthorizationDirective,
   },
 })
 
