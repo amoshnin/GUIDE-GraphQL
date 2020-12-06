@@ -7,7 +7,6 @@ const { createToken } = require("../../utils/context")
 /////////////////////////////////////////////////////////////////////////////
 
 const NEW_POST = "NEW_POST"
-
 module.exports = {
   Query: {
     me: authenticated((_, __, { user }) => {

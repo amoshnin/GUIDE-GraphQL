@@ -6,6 +6,8 @@ const { gql } = require("apollo-server")
 /////////////////////////////////////////////////////////////////////////////
 
 module.exports = gql`
+  directive @formatDate(format: String = "dd MMMM yyyy") on FIELD_DEFINITION
+
   enum ThemeEnum {
     DARK
     LIGHT
@@ -37,7 +39,7 @@ module.exports = gql`
     id: ID!
     message: String!
     author: UserType!
-    createdAt: String!
+    createdAt: String! @formatDate
     likes: Int!
     views: Int!
   }

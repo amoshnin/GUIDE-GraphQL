@@ -18,7 +18,7 @@ const NEW_ITEM = "NEW_ITEM"
 
 class LogDirective extends SchemaDirectiveVisitor {
   visitFieldDefinition(field) {
-    const oldResolver = field.resolve || defaultFieldResolver
+    const resolver = field.resolve || defaultFieldResolver
 
     field.args.push({
       type: GraphQLString,
@@ -28,7 +28,7 @@ class LogDirective extends SchemaDirectiveVisitor {
       const { message: schemaMessage } = this.args
 
       console.log("hello", message || schemaMessage)
-      return oldResolver.call(this, root, rest, ctx, info)
+      return resolver.call(this, root, rest, ctx, info)
     }
   }
 }
