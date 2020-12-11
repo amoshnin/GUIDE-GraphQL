@@ -6,9 +6,11 @@ const { gql } = require("apollo-server")
 /////////////////////////////////////////////////////////////////////////////
 
 module.exports = gql`
+  # auth directives
   directive @authenticated on FIELD_DEFINITION
   directive @authorized(role: RoleEnum! = ADMIN) on FIELD_DEFINITION
 
+  # helper directives
   directive @formatDate(format: String = "dd MMMM yyyy") on FIELD_DEFINITION
 
   enum ThemeEnum {
